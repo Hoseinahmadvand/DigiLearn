@@ -1,0 +1,96 @@
+﻿@page
+@using Common.Application.DateUtil
+@using UserModule.Core
+@model DigiLearn.Web.Pages.Profile.IndexModel
+@{
+    ViewData["Title"] = "پروفایل-داشبورد";
+}
+<div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+        <partial name="_ProfileSidebar"></partial>
+        <div class="lg:col-span-9 md:col-span-8">
+            <div class="space-y-10">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1">
+                        <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                        <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                    </div>
+                    <div class="font-black text-foreground">  @ViewData["title"]  </div>
+                </div>
+                <div class="bg-background p-6 grid md:grid-cols-3 gap-8">
+                 
+                    <div class="bg-secondary  rounded-2xl p-6 flex flex-col items-center shadow-lg col-1">
+                        <form method="post" action="/profile" id="change_avatar" enctype="multipart/form-data" class="relative inline-block">
+                            @Html.AntiForgeryToken()
+
+                            <img class="w-24 h-24 rounded-full border-4 border-primary mb-4"
+                                 src="@UserModuleDirectories.GetUserAvatar(Model.UserDto.Avatar)"
+                                 height="150" width="150"
+                                 alt="@Model.UserDto.FullName">
+
+                            <label for="upImgAvatar" class="absolute bottom-0 right-0 p-1 rounded-full cursor-pointer">
+                                <i class="fa fa-pencil-square"></i>
+                            </label>
+
+                            <input type="file" accept="image/*" id="upImgAvatar" name="avatar" class="hidden">
+                        </form>
+                        <h6 class="text-lg font-bold text-foreground text-gray-900">@Model.UserDto.FullName</h6>
+                        <p class="text-sm text-foreground text-gray-500 mb-2">@Model.UserDto.Email</p>
+                        <p class="text-sm text-foreground text-gray-500 mb-2">@Model.UserDto.PhoneNumber</p>
+                        <a asp-page="/Profile/Edit" class="mt-4 text-sm text-primary font-semibold hover:underline">تکمیل اطلاعات</a>
+                      
+                    </div>
+
+                 
+                    <div class="md:col-span-2 bg-secondary  rounded-2xl p-6 shadow-lg">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2 col-2">
+                            <h6 class="text-xl font-bold text-foreground text-gray-900"> آخرین پیام‌ها</h6>
+                            <a asp-page="Notifications" class="text-sm text-blue-500 font-semibold hover:underline">مشاهده همه</a>
+                        </div>
+                        <ul class="space-y-4 flex flex-col space-y-3 bg-secondary rounded-2xl p-5 ">
+                            @if (Model.NewNotification.Any())
+                            {
+                                @foreach (var item in Model.NewNotification)
+                                {
+                                    <li class="flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm 
+w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors ">
+                                        <div class="flex items-center">
+                                            <div>
+                                                <p class="text-sm text-foreground font-semibold text-gray-900">@item.Title</p>
+                                                <p class="text-xs text-foreground text-gray-500"> @Html.Raw(item.Text)</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs text-gray-400">
+                                            @item.CreationDate.ToPersianDateTime()
+                                        </span>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li class="flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm
+w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors">
+
+                                    <div class="flex items-center">
+                                        <div>
+                                            <h6 class="text-sm text-center font-semibold text-foreground text-gray-900">موردی وجود ندارد</h6>
+
+                                        </div>
+                                    </div>
+
+                                </li>
+                            }
+
+
+
+
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,46 @@
+﻿@page "{courseId}"
+@model DigiLearn.Web.Pages.Profile.Teacher.Courses.Sections.AddModel
+@{
+    ViewData["title"] = "افرودن فصل جدید";
+  
+}
+<div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+        <partial name="_ProfileSidebar"></partial>
+        <div class="lg:col-span-9 md:col-span-8 space-y-8">
+
+            <div class="max-w-3xl mx-auto bg-white p-6 shadow-md rounded-2xl">
+                <!-- عنوان صفحه -->
+                <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2 mb-5">
+                    <i class="fa fa-address-card-o text-primary"></i> افزودن فصل جدید
+                </h2>
+
+                <!-- فرم افزودن فصل -->
+                <form method="post" class="space-y-4">
+                    <!-- نام فصل -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1" asp-for="Title"></label>
+                        <input type="text" asp-for="Title"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none">
+                    </div>
+
+                    <!-- ترتیب نمایش -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1" asp-for="DisplayOrder"></label>
+                        <input type="number" asp-for="DisplayOrder"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none">
+                    </div>
+
+                    <!-- دکمه ثبت -->
+                    <div class="flex justify-end">
+                        <button class="bg-primary text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-80 transition-all">
+                            ثبت اطلاعات
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>

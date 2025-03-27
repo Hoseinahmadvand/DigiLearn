@@ -1,0 +1,100 @@
+﻿@page
+@using Common.Application.DateUtil
+@using CoreModule.Application._Utilities
+@using CoreModule.Domain.Courses.Enums
+@using Common.Application
+@model DigiLearn.Web.Pages.Profile.Teacher.Courses.IndexModel
+@{
+    ViewData["Title"] = "دوره های مدرس";
+
+}
+<div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+        <partial name="_ProfileSidebar"></partial>
+        <div class="lg:col-span-9 md:col-span-8 space-y-8">
+
+            <!-- هدر صفحه و دکمه افزودن دوره -->
+            <div class="bg-white p-6 shadow-md rounded-2xl flex justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                    <i class="fa fa-paper-plane text-primary"></i> دوره‌های مدرس
+                </h2>
+                <a asp-page="Add" class="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:opacity-80">
+                    + افزودن دوره جدید
+                </a>
+            </div>
+
+            <!-- لیست دوره‌ها -->
+            <div class="bg-white p-6 shadow-md rounded-2xl">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fa fa-list text-gray-600"></i> لیست دوره‌ها
+                </h3>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full border border-gray-300 rounded-lg overflow-hidden">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-sm">
+                                <th class="py-3 px-4">عکس</th>
+                                <th class="py-3 px-4">عنوان</th>
+                                <th class="py-3 px-4">قیمت</th>
+                                <th class="py-3 px-4">وضعیت</th>
+                                <th class="py-3 px-4">تاریخ ثبت</th>
+                                <th class="py-3 px-4">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            @foreach (var item in Model.FilterResult.Data)
+
+                            {
+                                <tr class="border-t border-gray-200">
+                                    <td class="py-3 px-4">
+                                        <img src="@CoreModuleDirectories.GetCourseImage(item.ImageName)" class="w-24 rounded-md shadow-sm">
+                                    </td>
+                                    <td class="py-3 px-4 font-semibold text-gray-900">@item.Title</td>
+                                    <td class="py-3 px-4 text-primary font-bold">@item.Price.TooMan(true)</td>
+                                    <td class="py-3 px-4">
+                                        @switch (item.CourseStatus)
+
+                                        {
+
+                                            case CourseActionStatus.Pending:
+                                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">درحال بررسی</span>
+                                                break;
+
+                                            case CourseActionStatus.Active:
+                                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">فعال</span>
+                                                break;
+
+                                            case CourseActionStatus.DeActive:
+                                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-medium">غیرفعال</span>
+                                                break;
+
+                                        }
+                                    </td>
+                                    <td class="py-3 px-4 text-gray-500">@item.CreationDate.ToPersianDate()</td>
+                                    <td class="py-3 px-4">
+                                        <a asp-page="Sections/Index" asp-route-courseId="@item.Id" class="bg-primary text-white px-4 py-2 rounded-lg text-xs font-semibold hover:opacity-80">
+                                            مدیریت سرفصل‌ها
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            @if (Model.FilterResult.EntityCount == 0)
+
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-gray-500">موردی برای نمایش وجود ندارد</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- پیجینیشن -->
+                <div class="mt-6">
+                    <partial name="Shared/_Pagination" model="Model.FilterResult" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

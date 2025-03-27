@@ -1,0 +1,52 @@
+﻿@page "{bannerId}"
+@using BannerModule.Domain
+@using BannerModule.Utils
+@model DigiLearn.Web.Areas.Admin.Pages.Banners.EditModel
+@{
+    ViewData["title"] = "ویرایش بنر";
+    ViewData["selected"] = "banner";
+}
+
+<div class="card">
+    <form class="card-body row" method="post" enctype="multipart/form-data">
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.Title)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.Url)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.Alt)
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Positon"></label>
+            <select asp-for="Positon" class="form-control">
+                <option value="@BannerPositon.اسلایدر" selected="@(Model.Positon == BannerPositon.اسلایدر)">اسلایدر</option>
+                <option value="@BannerPositon.بنر_1" selected="@(Model.Positon == BannerPositon.بنر_1)">بالای صفحه</option>
+                <option value="@BannerPositon.بنر_2" selected="@(Model.Positon == BannerPositon.بنر_2)">صفحه دوره ها</option>
+                <option value="@BannerPositon.بنر_3" selected="@(Model.Positon == BannerPositon.بنر_3)">صفحه مقالات</option>
+                <option value="@BannerPositon.بنر_4" selected="@(Model.Positon == BannerPositon.بنر_4)">صفحه دوره تکی</option>
+                <option value="@BannerPositon.بنر_5" selected="@(Model.Positon == BannerPositon.بنر_5)">صفحه اصلی</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.Order)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(f => f.IsActive)
+        </div>
+
+        <div class="col-md-12">
+            @Html.EditorFor(f => f.ImageFile)
+        </div>
+
+        <div class="col-md-6">
+            <img src="@BannerDirectories.GetBannerImage(Model.ImageName)" style="max-width:400px" />
+        </div>
+        <div class="col-md-12 d-flex mt-2 justify-content-end">
+            <submit />
+        </div>
+    </form>
+</div>
+

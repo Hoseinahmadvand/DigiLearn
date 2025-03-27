@@ -1,0 +1,35 @@
+﻿@model Common.Query.Filter.BaseFilter
+
+
+@if (Model.PageCount > 1)
+{
+    <div class="flex justify-center mt-4">
+
+        @if (Model.StartPage > 1)
+        {
+            <a href="#" onclick="changePage(1)" class="px-4 py-2 mx-1 text-foreground bg-secondary text-black rounded-full">1</a>
+        }
+        @for (var item = Model.StartPage; item <= Model.EndPage; item++)
+        {
+            if (item == Model.CurrentPage)
+            {
+                <a class="px-4 py-2 mx-1 text-foreground bg-primary text-white rounded-full">@item</a>
+            }
+            else
+            {
+                <a href="#" onclick="changePage(@item)" class="px-4 py-2 mx-1 text-foreground bg-secondary text-black rounded-full">@item</a>
+            }
+        }
+
+        @if (Model.EndPage < Model.PageCount)
+        {
+            <a href="#" onclick="changePage(@Model.PageCount)" class="px-4 py-2 mx-1 text-foreground bg-secondary text-black rounded-full">@Model.PageCount</a>
+        }
+    </div>
+}
+
+@* <div class="flex justify-center mt-4">
+    <button class="px-4 py-2 mx-1 text-foreground bg-primary text-white rounded-full">1</button>
+    <button class="px-4 py-2 mx-1 text-foreground bg-secondary text-black rounded-full">2</button>
+    <button class="px-4 py-2 mx-1 text-foreground bg-secondary text-black rounded-full">3</button>
+</div> *@

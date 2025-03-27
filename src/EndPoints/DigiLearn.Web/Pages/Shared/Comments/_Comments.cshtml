@@ -1,0 +1,152 @@
+﻿@using Common.Application.DateUtil
+@using DigiLearn.Web.Infrastructure
+@model CommentModule.Services.DTOs.CommentFilterResult
+
+
+
+<div class="space-y-3">
+    <!-- course:comment -->
+    @foreach (var item in Model.Data)
+    {
+
+        <div class="space-y-3">
+            <div class="bg-background border border-border rounded-3xl space-y-3 p-5">
+                <div class="flex sm:flex-nowrap flex-wrap sm:flex-row flex-col sm:items-center sm:justify-between gap-5 border-b border-border pb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
+                            <img src="https://i.pravatar.cc/150?img=14" class="w-full h-full object-cover" alt="...">
+                        </div>
+                        <div class="flex flex-col items-start space-y-1">
+                            <a href="#" class="line-clamp-1 font-semibold text-sm text-foreground hover:text-primary">
+                                @item.FullName
+                            </a>
+                            <span class="text-xs text-muted">
+                                @item.CreationDate.ToPersianDate()
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 sm:mr-0 mr-auto">
+                        <a href="#send_comments" onclick="replyComment('@item.Id')" class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
+                            <span class="text-xs">پاسخ</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                <path fill-rule="evenodd" d="M12.207 2.232a.75.75 0 0 0 .025 1.06l4.146 3.958H6.375a5.375 5.375 0 0 0 0 10.75H9.25a.75.75 0 0 0 0-1.5H6.375a3.875 3.875 0 0 1 0-7.75h10.003l-4.146 3.957a.75.75 0 0 0 1.036 1.085l5.5-5.25a.75.75 0 0 0 0-1.085l-5.5-5.25a.75.75 0 0 0-1.06.025Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.GetUserId() == item.UserId)
+                            {
+
+                                <button onclick="deleteComment('@item.Id')" type="button" class="flex items-center justify-center relative w-9 h-9 bg-secondary rounded-full text-muted transition-colors hover:text-red-500">
+                                    <i class="fa fa-trash"></i>
+
+                                </button>
+                            }
+
+
+
+                        }
+
+                    </div>
+                </div>
+                <p class="text-sm text-muted">
+                    @item.Text
+                </p>
+            </div>
+            <!-- course:comment replies -->
+            @if (item.Replies.Any())
+            {
+                @foreach (var reply in item.Replies)
+                {
+                    <div class="relative before:content-[''] before:absolute before:-top-3 before:right-8 before:w-px before:h-[calc(100%-24px)] before:bg-border after:content-[''] after:absolute after:bottom-9 after:right-8 after:w-8 after:h-px after:bg-border space-y-3 pr-16">
+                        <div class="bg-background border border-border rounded-3xl space-y-3 p-5">
+                            <div class="flex sm:flex-nowrap flex-wrap sm:flex-row flex-col sm:items-center sm:justify-between gap-5 border-b border-border pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
+                                        <img src="https://i.pravatar.cc/150?img=14" class="w-full h-full object-cover" alt="...">
+                                    </div>
+                                    <div class="flex flex-col items-start space-y-1">
+                                        <a href="#" class="line-clamp-1 font-semibold text-sm text-foreground hover:text-primary">
+                                            @reply.FullName
+                                        </a>
+                                        <span class="text-xs text-muted">
+                                            @reply.CreationDate.ToPersianDate()
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 sm:mr-0 mr-auto">
+                                  @*   <a href="#" class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
+                                        <span class="text-xs">پاسخ</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                            <path fill-rule="evenodd" d="M12.207 2.232a.75.75 0 0 0 .025 1.06l4.146 3.958H6.375a5.375 5.375 0 0 0 0 10.75H9.25a.75.75 0 0 0 0-1.5H6.375a3.875 3.875 0 0 1 0-7.75h10.003l-4.146 3.957a.75.75 0 0 0 1.036 1.085l5.5-5.25a.75.75 0 0 0 0-1.085l-5.5-5.25a.75.75 0 0 0-1.06.025Z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </a> *@
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+
+                                        if (User.GetUserId() == reply.UserId)
+
+                                        {
+
+                                            <button onclick="deleteComment('@item.Id')" type="button" class="flex items-center justify-center relative w-9 h-9 bg-secondary rounded-full text-muted transition-colors hover:text-red-500">
+                                                <i class="fa fa-trash"></i>
+
+                                            </button>
+                                        }
+
+
+
+                                    }
+                                </div>
+                            </div>
+                            <p class="text-sm text-muted">
+                        @reply.Text
+                            </p>
+                        </div>
+
+                    </div>
+                }
+            }
+        </div>
+    }
+    @if (Model.PageCount > 1)
+
+    {
+        <div class="paginat col-12">
+            @if (Model.StartPage > 1)
+
+            {
+                <a href="#" onclick="changeCommentPage(1,'@Model.FilterParams.CommentType','@Model.FilterParams.EntityId')" class="first">1</a>
+            }
+            @for (var item = Model.StartPage; item <= Model.EndPage; item++)
+
+            {   if (item == Model.CurrentPage)
+
+                {
+                    <a class="current-page">@item</a>
+                }
+
+
+
+                else
+
+
+
+                {
+                    <a href="#" onclick="changeCommentPage(@item,'@Model.FilterParams.CommentType','@Model.FilterParams.EntityId')">@item</a>
+                }
+
+
+
+            }
+
+            @if (Model.EndPage < Model.PageCount)
+
+
+
+            {
+                <a href="#" onclick="changeCommentPage(@Model.PageCount,'@Model.FilterParams.CommentType','@Model.FilterParams.EntityId')" class="last">@Model.PageCount</a>
+            }
+        </div>
+    }
+</div>

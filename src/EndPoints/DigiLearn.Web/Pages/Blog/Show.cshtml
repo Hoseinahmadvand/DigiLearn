@@ -1,0 +1,117 @@
+﻿@page "/blog/{slug}"
+@using MongoDB.Driver
+@using Common.Application.DateUtil
+@using BlogModule.Utils
+@using CommentModule.Domain
+@using CommentModule.Services.DTOs
+@using DigiLearn.Web.Infrastructure
+@using UserModule.Core
+@using UserModule.Core.Services
+@model DigiLearn.Web.Pages.Blog.ShowModel
+@inject IUserFacade _userFacade;
+@{
+    var writer = await _userFacade.GetById(Model.BlogPost.UserId);
+}
+
+<div class="container mx-auto px-4 py-6">
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <nav class="flex text-gray-600 text-sm mb-4">
+            <a href="/" class="hover:text-blue-600">خانه</a>
+            <span class="mx-2">/</span>
+            <a href="/blog" class="hover:text-blue-600">بلاگ</a>
+            <span class="mx-2">/</span>
+            <a href="/blog?category=@Model.BlogPost.Category.Slug" class="hover:text-blue-600">@Model.BlogPost.Category.Title</a>
+            <span class="mx-2">/</span>
+            <span class="text-gray-800">@Model.BlogPost.Title</span>
+        </nav>
+
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">@Model.BlogPost.Title</h1>
+        <div class="flex items-center text-sm text-gray-500 mb-4">
+            <img class="w-10 h-10 rounded-full" src="@UserModuleDirectories.GetUserAvatar(writer.Avatar)" alt="@Model.BlogPost.OwnerName" />
+            <span class="ml-2">نوشته شده توسط <a href="#" class="text-blue-500">@Model.BlogPost.OwnerName</a></span>
+        </div>
+
+        <img class="w-full rounded-lg mb-6" src="@BlogDirectories.GetPostImage(Model.BlogPost.ImageName)" alt="@Model.BlogPost.Title"/>
+
+        <div class="prose prose-lg text-gray-700">
+            @Html.Raw(Model.BlogPost.Description)
+        </div>
+    </div>
+
+    <div class="mt-8 bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-lg font-semibold mb-4">نظرات کاربران</h2>
+        @if (User.Identity.IsAuthenticated)
+
+        {
+            <div class="bg-background border border-border rounded-3xl p-5 mb-5">
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="flex items-center gap-1">
+                        <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                        <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                    </div>
+                    <div class="font-black text-xs text-foreground">
+                        ارسال دیدگاه یا پرسش
+                    </div>
+                    </div>
+               
+                <!-- course:comments:form -->
+            <form method="post" asp-controller="Comment" asp-action="CreateComment" id="send_comments" class="flex flex-col space-y-5">
+                    <input name="command.EntityId" value="@Model.BlogPost.Id" type="hidden" />
+                    <input name="command.CommentType" value="@CommentType.Article" type="hidden" />
+                    <input name="command.ParentId" value="null" id="parentId" type="hidden" />
+                    <input name="command.UserId" value="@User.GetUserId()" type="hidden" />
+                <textarea name="command.Text" name="text" id="text" rows="10" class="form-textarea w-full !ring-0 !ring-offset-0 bg-secondary border-0 focus:border-border border-border rounded-xl text-sm text-foreground p-5" placeholder="متن مورد نظر خود را وارد کنید ..."></textarea>
+                    <button type="submit" class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4 mr-auto">
+                        <span class="font-semibold text-sm">
+                            ثبت دیدگاه یا
+                            پرسش
+                        </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </form>
+                <!-- end course:comments:form -->
+               
+            </div>
+        }
+
+        else
+
+        {
+            <div class="p-4 bg-yellow-100 text-yellow-800 rounded-lg">
+                برای ارسال نظر باید <a href="/auth/login?redirectTo=/blog/show/@Model.BlogPost.Slug#send_comments" class="text-blue-500">وارد حساب کاربری</a> خود شوید.
+            </div>
+        }
+
+        <div id="comment_list" class="mt-4">
+            <partial name="Shared/Comments/_Comments" model="Model.CommentFilterResult" />
+        </div>
+    </div>
+</div>
+@* @section Scripts{
+    <script>
+        function changeCommentPage(pageId, type, entityId) {
+            $.ajax({
+                url: `/comment/getByFilter?entityId=${entityId}&commentType=${type}&pageId=${pageId}`,
+                type: "get",
+                beforeSend: function () {
+                    $(".loading").show();
+                },
+                complete: function () {
+                    $(".loading").hide();
+                },
+            }).done(function (data) {
+                $("#comment_list").html(data);
+            });
+        }
+
+        function replyComment(id) {
+            $("#parentId").val(id);
+        }
+
+        function deleteComment(id) {
+            deleteItem(`/comment/delete?commentId=${id}`, "آیا از حذف نظر اطمینان دارید ؟");
+        }
+    </script>
+} *@

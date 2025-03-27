@@ -1,0 +1,90 @@
+﻿@page
+@using Common.Application.DateUtil
+@using TicketModule.Data.Entities
+@model DigiLearn.Web.Pages.Profile.Tickets.IndexModel
+@{
+    int counter = 1;
+    ViewData["title"] = "تیکت ها";
+}
+
+<div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+        <partial name="_ProfileSidebar"></partial>
+        <div class="lg:col-span-9 md:col-span-8 px-6 py-6">
+            <div class="space-y-10">
+             
+                <div class="bg-white p-6 shadow-md rounded-2xl flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                        <i class="fa fa-paper-plane text-primary"></i>@ViewData["title"]
+                    </h2>
+                    <a asp-page="Add" class="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:opacity-80">
+                        ثبت تیکت جدید
+                    </a>
+                </div>
+                <div class="space-y-5">
+                  
+                    <div class="overflow-x-auto">
+                        <table class="w-full border border-border bg-background rounded-2xl overflow-hidden mb-4">
+                            <thead>
+                                <tr class="bg-secondary text-muted text-sm">
+
+                                    <th class="py-3 px-4 text-foreground text-right">#</th>
+                                    <th class="py-3 px-4 text-foreground text-right">عنوان</th>
+                                    <td class="py-3 px-4 text-foreground text-right">وضعیت</td>
+                                    <th class="py-3 px-4 text-foreground text-right">تاریخ ثبت</th>
+                                    <td class="py-3 px-4 text-foreground text-right"></td>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                @foreach(var item in Model.FilterResult.Data)
+                                {
+                                    <tr class="border-t border-border">
+                                        <td class="py-3 text-foreground px-4">@counter</td>
+                                        <td class="py-3 text-foreground px-4 text-green-600 font-bold">
+                                            @switch (item.Status)
+                                            {
+                                                case TicketStatus.Pending:
+                                                    <span class="badge badge-info">درحال برسی</span>
+                                                    break;
+                                                case TicketStatus.Answered:
+                                                    <span class="badge badge-success">پاسخ داده شده</span>
+                                                    break;
+                                                case TicketStatus.Closed:
+                                                    <span class="badge badge-danger">بسته شده</span>
+                                                    break;
+                                            }
+
+                                        </td>
+                                        <td class="py-3 text-foreground px-4">@item.Title</td>
+                                        <td class="py-3 text-foreground px-4">@item.CreationDate.ToPersianDate()</td>
+                                        <td class="py-3 text-foreground px-4">
+                                            <a asp-page="ShowTicket" asp-route-ticketId="@item.Id" class="bg-transparent rounded-full hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                               
+                                            </a>
+                                            </td>
+                                    </tr>
+                                }
+                            
+
+                                @if (Model.FilterResult.EntityCount == 0)
+                                {
+                                    <tr class="border-t border-border">
+                                        <td colspan="5" class="py-3 text-foreground text-center">موردی برای نمایش وجود ندارد</td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <!-- پیجینیشن -->
+                        <hr class="mt-0">
+                        <partial name="Shared/_Pagination" model="Model.FilterResult" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

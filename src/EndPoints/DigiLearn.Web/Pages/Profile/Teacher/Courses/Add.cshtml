@@ -1,0 +1,119 @@
+﻿@page
+@using CoreModule.Domain.Courses.Enums
+@using CoreModule.Facade.Categories
+@model DigiLearn.Web.Pages.Profile.Teacher.Courses.AddModel
+@inject ICourseCategoryFacade _CategoryFacade
+@{
+    ViewData["Title"] = "افرودن دوره جدید";
+  
+    var categories = await _CategoryFacade.GetMainCategories();
+}
+<div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+        <partial name="_ProfileSidebar"></partial>
+        <div class="lg:col-span-9 md:col-span-8 space-y-8">
+
+            <div class="max-w-5xl mx-auto bg-white shadow-md rounded-2xl p-6">
+                <!-- عنوان فرم -->
+                <div class="flex items-center gap-2 mb-6">
+                    <i class="fa fa-paper-plane text-primary text-xl"></i>
+                    <h2 class="text-lg font-semibold text-gray-900">@ViewData["Title"]</h2>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" class="grid md:grid-cols-2 gap-6">
+                    <!-- عنوان دوره -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">عنوان دوره</label>
+                        <input type="text" asp-for="Title" class="input-style" />
+                    </div>
+
+                    <!-- اسلاگ -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">اسلاگ</label>
+                        <input type="text" asp-for="Slug" class="input-style" />
+                    </div>
+
+                    <!-- قیمت دوره -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">قیمت</label>
+                        <input type="number" asp-for="Price" class="input-style" />
+                    </div>
+
+                    <!-- سطح دوره -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">سطح دوره</label>
+                        <select asp-for="CourseLevel" class="select-style">
+                            <option value="@CourseLevel.Beginner">مقدماتی</option>
+                            <option value="@CourseLevel.Intermediate">از مقدماتی تا پیشرفته</option>
+                            <option value="@CourseLevel.Expert">پیشرفته</option>
+                        </select>
+                    </div>
+
+                    <!-- دسته‌بندی -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">دسته‌بندی</label>
+                        <select asp-for="CategoryId" class="select-style">
+                            <option>انتخاب کنید</option>
+                            @foreach (var item in categories)
+
+                            {
+                                <option value="@item.Id">@item.Title</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- زیر دسته‌بندی -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">زیر دسته‌بندی</label>
+                        <select asp-for="SubCategoryId" class="select-style"></select>
+                    </div>
+
+                
+
+                    <!-- آپلود تصویر -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">آپلود تصویر دوره</label>
+                        <input type="file" asp-for="ImageFile" class="file-input-style" />
+                    </div>
+
+                    <!-- آپلود ویدئو -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">آپلود ویدئو دوره</label>
+                        <input type="file" asp-for="VideoFile" class="file-input-style" />
+                    </div>
+                    <!-- توضیحات -->
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700">توضیحات</label>
+                        <textarea asp-for="Description" class="textarea-style"></textarea>
+                    </div>
+                    <br />
+                    <!-- دکمه ثبت -->
+                    <div class="md:col-span-2 flex justify-center">
+                        <button class="btn-primary w-full py-3">ثبت اطلاعات</button>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+        <!-- Tailwind CSS CDN -->
+
+    <script>
+        $("#CategoryId").change(function () {
+            var id = $(this).val();
+            $.ajax({
+                url: "/ajax/getCategoryChildren?id=" + id,
+                method: "get"
+            }).done(function (data) {
+                $("#SubCategoryId").html(data);
+            });
+        });
+    </script>
+}

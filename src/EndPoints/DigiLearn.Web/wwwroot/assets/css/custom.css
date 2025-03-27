@@ -1,0 +1,84 @@
+﻿.field-validation-error {
+    color: red;
+    font-size: 10px;
+}
+
+
+.input-style {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border 0.3s;
+}
+
+    .input-style:focus {
+        border-color: #3b82f6;
+    }
+
+.select-style {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.textarea-style {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    min-height: 100px;
+}
+
+.file-input-style {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+}
+
+.btn-primary {
+    background-color: #3b82f6;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+    .btn-primary:hover {
+        background-color: #2563eb;
+    }
+
+.swal2-confirm {
+    background-color: #16a34a; /* سبز جذاب */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+    .swal2-confirm:hover {
+        background-color: #15803d; /* سبز تیره‌تر برای افکت هاور */
+        transform: scale(1.05);
+    }
+
+.swal2-cancel {
+    background-color: #dc2626; /* قرمز شیک */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+    .swal2-cancel:hover {
+        background-color: #b91c1c; /* قرمز تیره‌تر برای هاور */
+        transform: scale(1.05);
+    }

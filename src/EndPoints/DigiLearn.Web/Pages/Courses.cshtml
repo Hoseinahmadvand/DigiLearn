@@ -1,0 +1,285 @@
+﻿@page
+@using CoreModule.Query.Courses._DTOs
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using CoreModule.Domain.Courses.Enums
+@using CoreModule.Facade.Categories
+@using DigiLearn.Web.ViewModels
+@model DigiLearn.Web.Pages.CoursesModel
+@inject ICourseCategoryFacade _CategoryFacade
+@{
+    var categories = await _CategoryFacade.GetMainCategories();
+}
+<div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <form id="filter_Form">
+        <input type="hidden" value="@Model.FilterParams.CategorySlug" asp-for="FilterParams.CategorySlug" />
+        <input type="hidden" value="@Model.FilterParams.SearchByPrice" asp-for="FilterParams.SearchByPrice" />
+        <div class="space-y-8">
+  
+            <div class="flex items-center gap-5">
+                <span class="flex items-center justify-center w-12 h-12 bg-primary text-primary-foreground rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M9.664 1.319a.75.75 0 0 1 .672 0 41.059 41.059 0 0 1 8.198 5.424.75.75 0 0 1-.254 1.285 31.372 31.372 0 0 0-7.86 3.83.75.75 0 0 1-.84 0 31.508 31.508 0 0 0-2.08-1.287V9.394c0-.244.116-.463.302-.592a35.504 35.504 0 0 1 3.305-2.033.75.75 0 0 0-.714-1.319 37 37 0 0 0-3.446 2.12A2.216 2.216 0 0 0 6 9.393v.38a31.293 31.293 0 0 0-4.28-1.746.75.75 0 0 1-.254-1.285 41.059 41.059 0 0 1 8.198-5.424ZM6 11.459a29.848 29.848 0 0 0-2.455-1.158 41.029 41.029 0 0 0-.39 3.114.75.75 0 0 0 .419.74c.528.256 1.046.53 1.554.82-.21.324-.455.63-.739.914a.75.75 0 1 0 1.06 1.06c.37-.369.69-.77.96-1.193a26.61 26.61 0 0 1 3.095 2.348.75.75 0 0 0 .992 0 26.547 26.547 0 0 1 5.93-3.95.75.75 0 0 0 .42-.739 41.053 41.053 0 0 0-.39-3.114 29.925 29.925 0 0 0-5.199 2.801 2.25 2.25 0 0 1-2.514 0c-.41-.275-.826-.541-1.25-.797a6.985 6.985 0 0 1-1.084 3.45 26.503 26.503 0 0 0-1.281-.78A5.487 5.487 0 0 0 6 12v-.54Z" clip-rule="evenodd"></path>
+                    </svg>
+                </span>
+                <div class="flex flex-col space-y-2">
+                    <span class="font-black xs:text-2xl text-lg text-primary">دوره های آموزشی</span>
+                    <span class="font-semibold text-xs text-muted">دوره ببین، تمرین کن، برنامه نویس شو</span>
+                </div>
+            </div>
+     
+            <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+                <div class="md:block hidden lg:col-span-3 md:col-span-4 md:sticky md:top-24">
+                    <div class="w-full flex flex-col space-y-3 mb-3">
+                        <span class="font-bold text-sm text-foreground">جستجو دوره</span>
+
+                        <div class="flex items-center relative">
+                            <input type="text" class="form-input w-full !ring-0 !ring-offset-0 h-10 bg-secondary !border-0 rounded-xl text-sm text-foreground" placeholder="عنوان دوره.." asp-for="FilterParams.Search">
+                            <span class="absolute left-3 text-muted">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="flex flex-col divide-y divide-border">
+
+                        <div class="w-full space-y-2 py-3" x-data="{ open: true }">
+                            <!-- accordion:button -->
+                            <button type="button" class="w-full h-11 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-primary px-3 text-foreground" x-bind:class="open ? 'text-primary' : 'text-foreground'" x-on:click="open = !open">
+                                <span class="flex items-center gap-x-2">
+                                    <span class="flex-shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="font-semibold text-sm text-right">دسته بندی دوره</span>
+                                </span>
+                                <span class="" x-bind:class="open ? 'rotate-180' : ''">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                   
+                            <div class="bg-secondary rounded-2xl relative p-3" x-show="open" style="display: none;">
+                                <div class="space-y-2">
+
+
+                                    @foreach (var item in categories)
+                                    {
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input class="form-radio !ring-0 !ring-offset-0 bg-border border-0" value="@item.Slug" name="category" checked="@(Model.FilterParams.CategorySlug==item.Slug?"checked":null)" type="radio" id="@item.Id" />
+                                            <span class="text-lg text-muted @(Model.FilterParams.CategorySlug==item.Slug?"selected":null)" checkfor="@item.Id">@item.Title</span>
+                                        </label>
+                                        @if (item.Children.Any())
+                                        {
+                                            @foreach (var child in item.Children)
+                                            {
+                                                <label class="flex items-center gap-2 cursor-pointer" style="margin-right:1rem">
+                                                    <input class="form-radio !ring-0 !ring-offset-0 bg-border border-0" value="@child.Slug" name="category" checked="@(Model.FilterParams.CategorySlug==child.Slug?"checked":null)" type="radio" id="@child.Id" />
+                                                    <span class="text-sm text-muted @(Model.FilterParams.CategorySlug==child.Slug?"selected":null)" checkfor="@child.Id">@child.Title</span>
+                                                </label>
+                                            }
+                                        }
+                                        <hr />
+                                    }
+                                </div>
+                            </div>
+       
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="lg:col-span-9 md:col-span-8">
+                    <div class="flex items-center gap-3 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path d="M10 3.75a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM17.25 4.5a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM5 3.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75ZM4.25 17a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM17.25 17a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM9 10a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1 0-1.5h5.5A.75.75 0 0 1 9 10ZM17.25 10.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM14 10a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM10 16.25a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z"></path>
+                        </svg>
+
+                        <div x-data="{ open: false, selectedOption: 'جدید‌ترین دوره‌ها', selectedValue: '@CourseFilterSort.Latest', options: [{ text: 'جدید‌ترین دوره‌ها', value: '@CourseFilterSort.Latest' }, { text: 'قدیمی‌ترین دوره‌ها', value: '@CourseFilterSort.Oldest' }] }">
+                            <label class="sm:flex hidden items-center gap-1 font-semibold text-xs text-muted">
+                                مرتب‌سازی:
+                            </label>
+                            <div class="w-52 relative">
+                                <input type="hidden" x-model="selectedValue" name="FilterParams.FilterSort">
+                                <button @@click="open = !open" class="flex items-center w-full h-11 bg-secondary rounded-2xl font-semibold text-xs text-foreground px-4">
+                                    <span x-text="selectedOption"></span>
+                                    <span class="absolute left-3 transition-transform" :class="open ? 'rotate-180' : ''">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <div class="absolute w-full bg-background rounded-2xl shadow-lg overflow-hidden mt-2 z-30" x-show="open" @@click.away="open = false" style="display: none;">
+                                    <ul>
+                                        <template x-for="option in options" :key="option.value">
+                                            <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
+                                                @@click.prevent="selectedOption = option.text; selectedValue = option.value; open = false"
+                                                x-text="option.text">
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion for Course Status -->
+                        <div x-data="{ open: false, selectedOption: 'همه', selectedValue: 'null', options: [{ text: 'همه', value: 'null' }, { text: 'به اتمام رسید', value: '@CourseStatus.Completed' }, { text: 'درحال برگزاری', value: '@CourseStatus.InProgress' }, { text: 'به زودی', value: '@CourseStatus.StartSoon' }] }">
+                            <label class="sm:flex hidden items-center gap-1 font-semibold text-xs text-muted">
+                                وضعیت دوره:
+                            </label>
+                            <div class="w-52 relative">
+                                <input type="hidden" x-model="selectedValue" name="FilterParams.CourseStatus">
+                                <button @@click="open = !open" class="flex items-center w-full h-11 bg-secondary rounded-2xl font-semibold text-xs text-foreground px-4">
+                                    <span x-text="selectedOption"></span>
+                                    <span class="absolute left-3 transition-transform" :class="open ? 'rotate-180' : ''">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <div class="absolute w-full bg-background rounded-2xl shadow-lg overflow-hidden mt-2 z-30" x-show="open" @@click.away="open = false" style="display: none;">
+                                    <ul>
+                                        <template x-for="option in options" :key="option.value">
+                                            <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
+                                                @@click.prevent="selectedOption = option.text; selectedValue = option.value; open = false"
+                                                x-text="option.text">
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion for Course Level -->
+                        <div x-data="{ open: false, selectedOption: 'همه', selectedValue: 'null', options: [{ text: 'همه', value: 'null' }, { text: 'مقدماتی', value: '@CourseLevel.Beginner' }, { text: 'پیشرفته', value: '@CourseLevel.Expert' }, { text: 'از مقدماتی تا پیشرفته', value: '@CourseLevel.Intermediate' }] }">
+                            <label class="sm:flex hidden items-center gap-1 font-semibold text-xs text-muted">
+                                سطح دوره:
+                            </label>
+                            <div class="w-52 relative">
+                                <input type="hidden" x-model="selectedValue" name="FilterParams.CourseLevel">
+                                <button @@click="open = !open" class="flex items-center w-full h-11 bg-secondary rounded-2xl font-semibold text-xs text-foreground px-4">
+                                    <span x-text="selectedOption"></span>
+                                    <span class="absolute left-3 transition-transform" :class="open ? 'rotate-180' : ''">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <div class="absolute w-full bg-background rounded-2xl shadow-lg overflow-hidden mt-2 z-30" x-show="open" @@click.away="open = false" style="display: none;">
+                                    <ul>
+                                        <template x-for="option in options" :key="option.value">
+                                            <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
+                                                @@click.prevent="selectedOption = option.text; selectedValue = option.value; open = false"
+                                                x-text="option.text">
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                  
+                    <div class="grid lg:grid-cols-3 sm:grid-cols-2 gap-x-5 gap-y-10">
+                        @foreach (var item in Model.FilterResult.Data)
+                        {
+                            var card = new CourseCardViewModel()
+                {
+                    ImageName = item.ImageName,
+                    Price = item.Price,
+                    Title = item.Title,
+                    Slug = item.Slug,
+                    Visit = 0,
+                    TeacherName = item.Teacher,
+                    Duration = item.GetDuration(),
+                    CommentCounts = 0
+                };
+
+                            <partial name="Shared/Courses/_CourseCard" model="card" />
+
+                        }
+                    </div>
+      
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('courseFilters', () => ({
+                openCategoryFilter: false,
+                selectedCategory: '@Model.FilterParams.CategorySlug',
+                searchQuery: '@Model.FilterParams.Search',
+
+                // Default options for sorting
+                sortOption: '@CourseFilterSort.Latest',
+                sortOptions: [
+                    { text: 'جدید‌ترین دوره‌ها', value: '@CourseFilterSort.Latest' },
+                    { text: 'قدیمی‌ترین دوره‌ها', value: '@CourseFilterSort.Oldest' }
+                ],
+
+                // Default options for course status
+                courseStatus: 'null',
+                courseStatusOptions: [
+                    { text: 'همه', value: 'null' },
+                    { text: 'به اتمام رسید', value: '@CourseStatus.Completed' },
+                    { text: 'درحال برگزاری', value: '@CourseStatus.InProgress' },
+                    { text: 'به زودی', value: '@CourseStatus.StartSoon' }
+                ],
+
+                // Default options for course level
+                courseLevel: 'null',
+                courseLevelOptions: [
+                    { text: 'همه', value: 'null' },
+                    { text: 'مقدماتی', value: '@CourseLevel.Beginner' },
+                    { text: 'پیشرفته', value: '@CourseLevel.Expert' },
+                    { text: 'از مقدماتی تا پیشرفته', value: '@CourseLevel.Intermediate' }
+                ],
+
+                // Toggle filter visibility
+                toggleCategoryFilter() {
+                    this.openCategoryFilter = !this.openCategoryFilter;
+                },
+
+                // Handle sort option change
+                updateSortOption(option) {
+                    this.sortOption = option.value;
+                    this.$refs.sortButton.innerText = option.text;
+                },
+
+                // Handle course status change
+                updateCourseStatus(option) {
+                    this.courseStatus = option.value;
+                    this.$refs.statusButton.innerText = option.text;
+                },
+
+                // Handle course level change
+                updateCourseLevel(option) {
+                    this.courseLevel = option.value;
+                    this.$refs.levelButton.innerText = option.text;
+                },
+
+                // Handle search query change
+                updateSearchQuery(event) {
+                    this.searchQuery = event.target.value;
+                },
+
+                // Submit filter form
+                submitFilterForm() {
+                    this.$refs.filterForm.submit();
+                }
+            }));
+        });
+
+    </script>
+}

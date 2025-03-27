@@ -1,0 +1,72 @@
+﻿@page "{courseId}/{sectionId}"
+@model DigiLearn.Web.Pages.Profile.Teacher.Courses.Sections.Episodes.AddModel
+@{
+    ViewData["title"] = "افرودن قسمت  جدید";
+  
+}
+<div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+        <partial name="_ProfileSidebar"></partial>
+        <div class="lg:col-span-9 md:col-span-8 space-y-8">
+
+            <div class="max-w-3xl mx-auto bg-white p-6 shadow-md rounded-2xl">
+                <!-- عنوان صفحه -->
+                <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2 mb-5">
+                    <i class="fa fa-address-card-o text-primary"></i> افزودن قسمت جدید
+                </h2>
+
+                <!-- فرم افزودن قسمت -->
+                <form method="post" enctype="multipart/form-data" class="space-y-4">
+                    <!-- عنوان فارسی -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1" asp-for="Title"></label>
+                        <input type="text" asp-for="Title"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none">
+                    </div>
+
+                    <!-- عنوان انگلیسی -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1" asp-for="EnglishTitle"></label>
+                        <input type="text" asp-for="EnglishTitle"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none">
+                    </div>
+
+                    <!-- مدت زمان -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1" asp-for="TimeSpan"></label>
+                        <input type="text" asp-for="TimeSpan"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none">
+                    </div>
+
+                    <!-- آپلود ویدیو -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1" asp-for="VideoFile"></label>
+                        <input type="file" asp-for="VideoFile"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg file:bg-primary file:text-white file:px-4 file:py-2 file:rounded-full file:border-0">
+                    </div>
+
+                    <!-- آپلود فایل ضمیمه -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-1" asp-for="AttachmentFile"></label>
+                        <input type="file" asp-for="AttachmentFile"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg file:bg-primary file:text-white file:px-4 file:py-2 file:rounded-full file:border-0">
+                    </div>
+
+                    <!-- انتخاب رایگان بودن قسمت -->
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" asp-for="IsFree" class="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary">
+                        <label class="text-gray-700 font-semibold" asp-for="IsFree">این قسمت رایگان باشد</label>
+                    </div>
+
+                    <!-- دکمه ثبت -->
+                    <div class="flex justify-end">
+                        <button class="bg-primary text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-80 transition-all">
+                            ثبت اطلاعات
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

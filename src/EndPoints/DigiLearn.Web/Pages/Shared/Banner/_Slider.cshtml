@@ -1,0 +1,91 @@
+﻿@using BannerModule.Services.DTOs.Query
+@using BannerModule.Utils
+@model List<BannerDto>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+
+<div class="swiper w-full mx-auto">
+    <div class="swiper-wrapper">
+        @foreach (var item in Model)
+        {
+            <div class="swiper-slide">
+                <a href="@item.Url">
+                    <img src="@BannerDirectories.GetBannerImage(item.ImageName)"
+                         class="w-full max-h-96 object-cover rounded-2xl"
+                         asp-append-version="true"
+                         alt="@item.Alt"
+                         name="@item.Title">
+                </a>
+            </div>
+        }
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="swiper-button-next slider-btn"></div>
+    <div class="swiper-button-prev slider-btn"></div>
+
+    <!-- Pagination (Optional) -->
+    <div class="swiper-pagination"></div>
+</div>
+
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper(".swiper", {
+        loop: true,
+        autoplay: {
+            delay: 3000, // اسلایدر هر 3 ثانیه به صورت خودکار حرکت می‌کنه
+            disableOnInteraction: false, // بعد از تعامل کاربر، اتوپلی متوقف نمی‌شه
+        },
+        navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true, // امکان کلیک روی نقاط pagination
+                    },
+                });
+</script>
+
+<!-- Custom CSS for Styling -->
+<style>
+    .swiper {
+        position: relative;
+    }
+
+    .slider-btn {
+        color: #ffffff; /* رنگ دکمه‌ها */
+        background: rgba(0, 0, 0, 0.5); /* پس‌زمینه نیمه‌شفاف */
+        border-radius: 50%; /* دکمه‌ها گرد بشن */
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease;
+    }
+
+        .slider-btn:hover {
+            background: rgba(0, 0, 0, 0.8); /* تغییر رنگ پس‌زمینه در هاور */
+        }
+
+        .slider-btn:after {
+            font-size: 20px; /* اندازه فلش‌ها */
+        }
+
+    .swiper-pagination {
+        bottom: 10px !important;
+    }
+
+    .swiper-pagination-bullet {
+        background: #ffffff; /* رنگ نقاط pagination */
+        opacity: 0.5;
+    }
+
+    .swiper-pagination-bullet-active {
+        opacity: 1;
+        background: #ffffff;
+    }
+</style>
