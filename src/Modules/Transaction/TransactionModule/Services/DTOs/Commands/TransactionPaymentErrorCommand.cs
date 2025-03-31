@@ -8,5 +8,4 @@
         public long RefId { get; set; }
         public bool Canceled { get; set; } = false;
     }
-
 }

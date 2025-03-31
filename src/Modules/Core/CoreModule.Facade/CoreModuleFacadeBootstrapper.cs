@@ -1,5 +1,6 @@
 ﻿using CoreModule.Facade.Categories;
 using CoreModule.Facade.Courses;
+using CoreModule.Facade.Discounts;
 using CoreModule.Facade.Orders;
 using CoreModule.Facade.Teachers;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ public class CoreModuleFacadeBootstrapper
         services.AddScoped<ICourseFacade, CourseFacade>();
         services.AddScoped<ICourseCategoryFacade, CourseCategoryFacade>();
         services.AddScoped<IOrderFacade, OrderFacade>();
+        services.AddScoped<IDiscountFacade, DiscountFacade>();
     
     }
 }

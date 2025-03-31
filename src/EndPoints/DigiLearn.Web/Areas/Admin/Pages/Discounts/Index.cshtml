@@ -1,0 +1,103 @@
+﻿@page
+@using Common.Application.DateUtil
+@using CoreModule.Domain.Discounts.Models
+@model DigiLearn.Web.Areas.Admin.Pages.Discounts.IndexModel
+@{
+    ViewData["title"] = "مدیریت کد تخفیف ها";
+    ViewData["selected"] = "discounts";
+}
+<a href="#" data-toggle="modal" data-target="#addModal" class="btn btn-success mb-1">افزودن مورد جدید</a>
+<div class="card ">
+    <div class="table-responsive card-body p-0 mb-0">
+        <table class="table table-bordered table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>عنوان</th>
+                    <th>نوع </th>
+                    <th> مقدار</th>
+                    <th> انقضا</th>
+                    <th> استفاده شده </th>
+                    <th> حداکثر استفاده</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Discounts)
+                {
+                    <tr>
+                        <td>@item.Code</td>
+                        <td>
+                            @if (item.DiscountType == DiscountType.Percentage)
+                            {
+                                <span class="badge badge-primary">درصدی %</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary">مبلغی </span>
+                            }
+                        </td>
+                        <td>@item.Value</td>
+                        <td>@item.ExpirationDate.ToPersianDate()</td>
+                        <td>@item.CurrentUsed</td>
+                        <td>@item.MaxUsed</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="badge badge-success">فعال</span>
+                              
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">غیرفعال</span>
+                            }
+                        </td>
+
+                        <td>
+                        
+                            <delete-item class="btn btn-sm btn-danger" url="@Url.Page("Index","Delete",new {code=item.Code})">حذف</delete-item>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="editAddressModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAddressModalLabel">افزودن دسته بندی</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="row" method="post" data-ajax="true">
+                    <div class="col-md-6">
+                        @Html.EditorFor(f => f.Code)
+                    </div>
+                    <div class="col-md-6">
+                        @Html.EditorFor(f => f.Value)
+                    </div>   
+                    <div class="col-md-6">
+                        @Html.EditorFor(f => f.Type)
+                    </div> 
+                    <div class="col-md-6">
+                        @Html.EditorFor(f => f.MaxUsed)
+                    </div> 
+                    <div class="col-md-6">
+                        @Html.EditorFor(f => f.ExpirationDate)
+                    </div>
+                    <div class="col-md-6"></div>
+                    <div class="col-md-12 d-flex mt-2 justify-content-end">
+                        <submit />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+

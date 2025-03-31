@@ -1,0 +1,57 @@
+﻿@page
+@model DigiLearn.Web.Pages.Profile.WalletModel
+@{
+    ViewData["title"] = "کیف پول";
+}
+
+<div class="max-w-7xl px-4 mx-auto py-8 space-y-10">
+    <div class="grid md:grid-cols-12 grid-cols-1 gap-6">
+        <partial name="_ProfileSidebar"></partial>
+
+        <div class="lg:col-span-9 md:col-span-8">
+            <div class="space-y-10">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1">
+                        <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                        <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                    </div>
+                    <div class="font-black text-foreground">  @ViewData["title"]  </div>
+                </div>
+                <div class="bg-background rounded-2xl shadow-md p-6 flex flex-col items-center justify-center">
+                    <h2 class="text-lg font-bold text-foreground">موجودی کیف پول</h2>
+                    <p class="text-2xl font-extrabold text-primary mt-2">@Model.UserDto.Wallet.ToString("#,0") تومان</p>
+
+                    <!-- دکمه افزایش موجودی -->
+                    <button onclick="toggleModal()" class="mt-4 px-6 py-2 bg-primary text-white rounded-xl shadow-md hover:bg-opacity-90">
+                        افزایش موجودی
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- مودال ورود مبلغ -->
+<div id="walletModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white rounded-2xl p-6 w-96 shadow-lg">
+        <h3 class="text-lg font-bold text-center">افزایش موجودی</h3>
+        <form method="post">
+        <input asp-for="Amount" type="text" placeholder="مبلغ را وارد کنید"
+               class="w-full mt-4 p-2 border rounded-md text-center focus:ring focus:ring-primary">
+
+        <div class="flex justify-between mt-4">
+            <button onclick="toggleModal()" class="px-4 py-2 bg-gray-300 rounded-md">لغو</button>
+            <button type="submit" class="px-4 py-2 bg-primary text-white rounded-md">تایید</button>
+        </div>
+        </form>
+    </div>
+</div>
+
+<!-- اسکریپت برای کنترل مودال -->
+<script>
+    function toggleModal() {
+        document.getElementById('walletModal').classList.toggle('hidden');
+    }
+
+  
+</script>

@@ -49,7 +49,7 @@ public class GetNotificationsByFilterQueryHandler : IQueryHandler<GetNotificatio
                     Text = s.Text,
                     Title = s.Title,
                     IsSeen = s.IsSeen
-                }).ToListAsync()
+                }).OrderByDescending(r=>r.CreationDate).ToListAsync()
         };
         model.GeneratePaging(result, request.FilterParams.Take, request.FilterParams.PageId);
         return model;

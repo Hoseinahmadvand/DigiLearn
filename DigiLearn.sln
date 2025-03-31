@@ -68,11 +68,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Banner", "Banner", "{D4D8D2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogModule", "src\Modules\Blog\BlogModule\BlogModule.csproj", "{6EC34A53-619E-4269-AD3C-5799F3FA990B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BannerModule", "src\Modules\Banner\BannerModule\BannerModule.csproj", "{7594DCF2-FBFC-448A-923F-0572B6FE6487}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BannerModule", "src\Modules\Banner\BannerModule\BannerModule.csproj", "{7594DCF2-FBFC-448A-923F-0572B6FE6487}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6BD13FCE-9B8D-4726-9B84-C535FEDA321C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "test\TestProject1\TestProject1.csproj", "{8648EA52-DDF2-41E0-994D-74C0DB91653F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject1", "test\TestProject1\TestProject1.csproj", "{8648EA52-DDF2-41E0-994D-74C0DB91653F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

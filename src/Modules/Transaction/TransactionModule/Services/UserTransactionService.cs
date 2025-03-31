@@ -145,4 +145,10 @@ public class UserTransactionService : IUserTransactionService
 
         return res.Count();
     }
+
+    public async Task<List<UserTransactionDto>> GetTransactionUser(Guid id)
+    {
+       var terns= await _context.UserTransactions.Where(t => t.UserId == id).ToListAsync();
+        return new List<UserTransactionDto>();
+    }
 }

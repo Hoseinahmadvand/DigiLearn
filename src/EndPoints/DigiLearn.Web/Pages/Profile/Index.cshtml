@@ -17,8 +17,9 @@
                     </div>
                     <div class="font-black text-foreground">  @ViewData["title"]  </div>
                 </div>
+              
                 <div class="bg-background p-6 grid md:grid-cols-3 gap-8">
-                 
+               
                     <div class="bg-secondary  rounded-2xl p-6 flex flex-col items-center shadow-lg col-1">
                         <form method="post" action="/profile" id="change_avatar" enctype="multipart/form-data" class="relative inline-block">
                             @Html.AntiForgeryToken()
@@ -40,8 +41,6 @@
                         <a asp-page="/Profile/Edit" class="mt-4 text-sm text-primary font-semibold hover:underline">تکمیل اطلاعات</a>
                       
                     </div>
-
-                 
                     <div class="md:col-span-2 bg-secondary  rounded-2xl p-6 shadow-lg">
                         <div class="flex justify-between items-center mb-4 border-b pb-2 col-2">
                             <h6 class="text-xl font-bold text-foreground text-gray-900"> آخرین پیام‌ها</h6>
@@ -61,7 +60,7 @@ w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full
                                             </div>
                                         </div>
                                         <span class="text-xs text-gray-400">
-                                            @item.CreationDate.ToPersianDateTime()
+                                            @item.CreationDate.ToPersianDate()
                                         </span>
                                     </li>
                                 }
@@ -85,6 +84,13 @@ w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full
 
 
                         </ul>
+                    </div>
+
+                    <div class="bg-secondary rounded-2xl p-6 items-center shadow-lg md:col-span-2">
+                        <a href="/profile/wallet" class="text-sm font-bold text-foreground text-gray-900">
+                            موجودی کیف پول شما:
+                            <span>@Model.UserDto.Wallet.ToString("#,0") تومان</span>
+                        </a>
                     </div>
                 </div>
 

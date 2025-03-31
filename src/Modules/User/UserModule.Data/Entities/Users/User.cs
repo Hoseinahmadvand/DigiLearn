@@ -26,6 +26,7 @@ public class User : BaseEntity
     [MaxLength(50)]
     public string? Email { get; set; }
 
+    public int Wallet { get; set; } = 0;
 
     [MaxLength(70)]
     [Required]

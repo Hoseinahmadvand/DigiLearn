@@ -16,6 +16,7 @@ namespace TransactionModule.Services
 
         #region Queries
         Task<UserTransaction> GetTransactionById(Guid id);
+        Task<List<UserTransactionDto>> GetTransactionUser(Guid id);
         Task<UserTransactionFilterDto> GetTransactionsByFilter(UserTransactionFilterParams queryParams);
         Task<int> GetCancelTransactionsCount(string stDate, string eDate, TransactionFor transactionFor, TransactionStatus status);
         #endregion

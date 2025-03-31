@@ -1,10 +1,12 @@
-﻿using CoreModule.Application.Categories;
+﻿using CoreModule.Application;
+using CoreModule.Application.Categories;
 using CoreModule.Application.Categories.Create;
 using CoreModule.Application.Courses;
 using CoreModule.Application.Order;
 using CoreModule.Application.Teachers;
 using CoreModule.Domain.Categories.DomainServices;
 using CoreModule.Domain.Courses.DomainServices;
+using CoreModule.Domain.Discounts;
 using CoreModule.Domain.Order.DomainServices;
 using CoreModule.Domain.Teachers.DomainServices;
 using CoreModule.Facade;
@@ -31,7 +33,7 @@ public static class CoreModuleBootstrapper
         services.AddScoped<ITeacherDomainService, TeacherDomainService>();
         services.AddScoped<ICategoryDomainService, CategoryDomainService>();
         services.AddScoped<IOrderDomainService, OrderDomainService>();
-
+        services.AddScoped<IDiscountDomainService, DiscountDomainService>();
         return services;
     }
 }

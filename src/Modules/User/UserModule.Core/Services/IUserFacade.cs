@@ -5,6 +5,8 @@ using UserModule.Core.Commands.Users.ChangePassword;
 using UserModule.Core.Commands.Users.Edit;
 using UserModule.Core.Commands.Users.FullEdit;
 using UserModule.Core.Commands.Users.Register;
+using UserModule.Core.Commands.Users.Wallet.DecreaseBalance;
+using UserModule.Core.Commands.Users.Wallet.IncreaseBalance;
 using UserModule.Core.Queries._DTOs;
 using UserModule.Core.Queries.Users.GetByFilter;
 using UserModule.Core.Queries.Users.GetById;
@@ -17,11 +19,14 @@ public interface IUserFacade
     Task<OperationResult<Guid>> RegisterUser(RegisterUserCommand command);
     Task<OperationResult> EditUserProfile(EditUserCommand command);
     Task<OperationResult> EditUser(FullEditUserCommand command);
+    Task<OperationResult> IncreaseWalletBalance(IncreaseWalletBalanceCommand command);
+    Task<OperationResult> DecreaseWalletBalance(DecreaseWalletBalanceCommand command);
     Task<OperationResult> ChangeAvatar(ChangeUserAvatarCommand command);
     Task<OperationResult> ChangePassword(ChangeUserPasswordCommand command);
     Task<UserDto?> GetUserByPhoneNumber(string phoneNumber);
     Task<UserDto?> GetById(Guid id);
     Task<UserFilterResult> GetByFilter(UserFilterParams filterParams);
+
 }
 
 
@@ -73,5 +78,15 @@ public class UserFacade : IUserFacade
     public async Task<UserFilterResult> GetByFilter(UserFilterParams filterParams)
     {
         return await _mediator.Send(new GetUsersByFilterQuery(filterParams));
+    }
+
+    public async Task<OperationResult> IncreaseWalletBalance(IncreaseWalletBalanceCommand command)
+    {
+        return await _mediator.Send(command);
+    }
+
+    public async Task<OperationResult> DecreaseWalletBalance(DecreaseWalletBalanceCommand command)
+    {
+        return await _mediator.Send(command);
     }
 }

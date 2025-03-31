@@ -26,7 +26,7 @@ namespace DigiLearn.Web.Pages.Profile
             {
                 IsSeen = null,
                 PageId = FilterParams.PageId,
-                Take = 6,
+                Take = 8,
                 UserId = User.GetUserId()
             });
         }

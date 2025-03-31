@@ -3,83 +3,102 @@ using Common.Domain.Exceptions;
 using CoreModule.Domain.Order.DomainServices;
 using CoreModule.Domain.Order.Events;
 
-namespace CoreModule.Domain.Order.Models;
-
-public class Order : AggregateRoot
+namespace CoreModule.Domain.Order.Models
 {
-    private Order()
+    public class Order : AggregateRoot
     {
-    }
-
-    public Order(Guid userId)
-    {
-        UserId = userId;
-        IsPay = false;
-        PaymentDate = null;
-        Discount = 0;
-        OrderItems = new();
-        DiscountCode = null;
-    }
-
-    public Guid UserId { get; private set; }
-    public bool IsPay { get; private set; }
-    public int Discount { get; private set; }
-    public string? DiscountCode { get; private set; }
-    public DateTime? PaymentDate { get; private set; }
-    public List<OrderItem> OrderItems { get; private set; } = new();
-
-    public int TotalPrice
-    {
-        get
+        private Order()
         {
-            return OrderItems.Sum(s => s.Price) - Discount;
+        }
+
+        public Order(Guid userId)
+        {
+            UserId = userId;
+            IsPay = false;
+            PaymentDate = null;
+            Discount = 0;
+            OrderItems = new();
+            DiscountCode = null;
+        }
+
+        public Guid UserId { get; private set; }
+        public bool IsPay { get; private set; }
+        public int Discount { get; private set; }
+        public string? DiscountCode { get; private set; }
+        public DateTime? PaymentDate { get; private set; }
+        public List<OrderItem> OrderItems { get; private set; } = new();
+
+        public int TotalPrice
+        {
+            get
+            {
+                return OrderItems.Sum(s => s.Price) - Discount;
+            }
+        }
+        public int FinallyPrice
+        {
+            get
+            {
+                return TotalPrice - Discount;
+            }
+        }
+
+        public void ApplyDicount(int discount,string code)
+        {
+            if (discount >TotalPrice) 
+                throw new InvalidDomainDataException("امکان اعمال کد تخفیف وجود ندارد");
+            Discount = discount;
+            DiscountCode= code;
+        }
+
+        public async Task AddItem(Guid courseId, IOrderDomainService domainService)
+        {
+            var price = await domainService.GetCoursePriceById(courseId);
+            if (price <= 0)
+            {
+                throw new InvalidDomainDataException("امکان اضافه کردن این دوره به سبد خرید وجود ندارد");
+            }
+            if (OrderItems.Any(f => f.CourseId == courseId))
+            {
+                return;
+            }
+
+            OrderItems.Add(new OrderItem()
+            {
+                CourseId = courseId,
+                Price = price,
+                OrderId = Id
+            });
+        }
+
+
+
+
+        public void FinallyOrder()
+        {
+            IsPay = true;
+            PaymentDate = DateTime.Now;
+            AddDomainEvent(new OrderFinallyEvent()
+            {
+                OrderId = Id,
+                UserId = UserId
+            });
+        }
+
+        public void RemoveItem(Guid id)
+        {
+            var item = OrderItems.FirstOrDefault(f => f.Id == id);
+            if (item != null)
+            {
+                OrderItems.Remove(item);
+            }
         }
     }
 
-    public async Task AddItem(Guid courseId, IOrderDomainService domainService)
+    public class OrderItem : BaseEntity
     {
-        var price = await domainService.GetCoursePriceById(courseId);
-        if (price <= 0)
-        {
-            throw new InvalidDomainDataException("امکان اضافه کردن این دوره  به سبد خرید وجود ندارد");
-        }
-        if (OrderItems.Any(f => f.CourseId == courseId))
-        {
-            return;
-        }
-
-        OrderItems.Add(new OrderItem()
-        {
-            CourseId = courseId,
-            Price = price,
-            OrderId = Id
-        });
+        public Guid CourseId { get; set; }
+        public Guid OrderId { get; set; }
+        public int Price { get; set; }
     }
-
-    public void FinallyOrder()
-    {
-        IsPay = true;
-        PaymentDate = DateTime.Now;
-        AddDomainEvent(new OrderFinallyEvent()
-        {
-            OrderId = Id,
-            UserId = UserId
-        });
-    }
-    public void RemoveItem(Guid id)
-    {
-        var item = OrderItems.FirstOrDefault(f => f.Id == id);
-        if (item != null)
-        {
-            OrderItems.Remove(item);
-        }
-    }
-
-}
-
-public class OrderItem : BaseEntity
-{
-    public Guid CourseId { get; set; }
-    public Guid OrderId { get; set; }
-    public int Price { get; set; }
 }

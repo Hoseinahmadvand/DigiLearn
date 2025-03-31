@@ -19,6 +19,8 @@ class QueryContext : DbContext
     public DbSet<SectionQueryModel> Sections { get; set; }
     public DbSet<OrderQueryModel> Orders { get; set; }
     public DbSet<OrderItemQueryModel> OrderItems { get; set; }
+    public DbSet<DiscountCodeModel> DiscountCodes { get; set; }
+    public DbSet<UsedDiscount> UsedDiscounts { get; set; }
 
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
