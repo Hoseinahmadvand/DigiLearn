@@ -1,4 +1,5 @@
-﻿@model CoreModule.Query.Courses._DTOs.CourseDto
+﻿@using DigiLearn.Web.Infrastructure
+@model CoreModule.Query.Courses._DTOs.CourseDto
 @{
     var counter = 1;
 }
@@ -44,12 +45,27 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
                                     </svg>
                                 </span>
-                                <a href="#" onclick="showEpisode('@episode.SectionId','@episode.Token')" data-toggle="tooltip" data-original-title="نمایش آنلاین" class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                    <span class="text-xs">مشاهده</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                        <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
+                                @if (Model.Students.Any(u => u.Id == User.GetUserId())@* ||episode.IsFree *@)
+                                {
+                                    <a href="#" onclick="showEpisode('@episode.SectionId','@episode.Token')" data-toggle="tooltip" data-original-title="نمایش آنلاین" class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
+                                        <span class="text-xs">مشاهده</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                            <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a a href="javascript:void(0);"
+                                       data-toggle="tooltip"
+                                       data-original-title="برای مشاهده این ویدیو باید در دوره ثبت‌نام کنید"
+                                       class="flex items-center h-9 gap-1 bg-gray-400 rounded-full text-gray-600 transition-colors px-4 cursor-not-allowed"
+                                       style="pointer-events: none;">
+                                        <span class="text-xs">مشاهده</span>
+                                        <i class="fa-solid fa-lock"></i>
+                                    </a>
+                                }
+
                             </div>
                         </div>
 

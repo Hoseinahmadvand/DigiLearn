@@ -148,7 +148,26 @@ public class UserTransactionService : IUserTransactionService
 
     public async Task<List<UserTransactionDto>> GetTransactionUser(Guid id)
     {
-       var terns= await _context.UserTransactions.Where(t => t.UserId == id).ToListAsync();
-        return new List<UserTransactionDto>();
+        var transactions = await _context.UserTransactions
+            .Where(t => t.UserId == id)
+            .ToListAsync();
+
+        return transactions.Select(t => new UserTransactionDto
+        {
+            Id = t.Id,
+            UserId = t.UserId,
+            PaymentAmount = t.PaymentAmount,
+            PaymentLinkId = t.PaymentLinkId,
+            RefId = t.RefId,
+            Authority = t.Authority,
+            CardPan = t.CardPan,
+            PaymentErrorMessage = t.PaymentErrorMessage,
+          
+            Status = t.Status,
+            TransactionFor = t.TransactionFor,
+            CreateDate = t.CreateDate,
+            PaymentDate = t.PaymentDate
+        }).ToList();
     }
+
 }

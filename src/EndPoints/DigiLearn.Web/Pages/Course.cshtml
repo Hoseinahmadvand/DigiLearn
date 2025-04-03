@@ -235,15 +235,14 @@
                                         </div>
                                         <div class="font-black text-foreground">سرفصلها</div>
                                     </div>
-                                    <!-- end section:title -->
-                                    <!-- course:sections:wrapper -->
+                                
 
 
                                     <partial name="Shared/Courses/_CourseSections" model="Model.Course" />
 
 
 
-                                    <!-- end course:sections:wrapper -->
+                             
                                 </div>
                                 <!-- end tabs:contents:tabTwo -->
                                 <!-- tabs:contents:tabThree -->
@@ -402,6 +401,11 @@
         </div>
     </div>
 </div>
+
+@foreach(var i in Model.MyProperty)
+{
+    <p>@i.Name</p>
+}
 
 @section Scripts{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.15.4/video.min.js"></script>

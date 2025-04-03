@@ -1,4 +1,5 @@
 ﻿
+using CoreModule.Domain.HelperEntities;
 using CoreModule.Query._Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,7 @@ class QueryContext : DbContext
     public DbSet<OrderItemQueryModel> OrderItems { get; set; }
     public DbSet<DiscountCodeModel> DiscountCodes { get; set; }
     public DbSet<UsedDiscount> UsedDiscounts { get; set; }
+    public DbSet<CourseStudentModel> CourseStudents { get; set; }
 
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

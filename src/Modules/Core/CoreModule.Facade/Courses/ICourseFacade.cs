@@ -13,6 +13,9 @@ using CoreModule.Query.Courses.Episodes.GetById;
 using CoreModule.Query.Courses.GetByFilter;
 using CoreModule.Query.Courses.GetById;
 using CoreModule.Query.Courses.GetBySlug;
+using CoreModule.Query.HelperEntities._DTOs;
+using CoreModule.Query.HelperEntities.GetStudentsCours;
+using CoreModule.Query.HelperEntities.GetUserCourses;
 using MediatR;
 
 namespace CoreModule.Facade.Courses;
@@ -29,6 +32,10 @@ public interface ICourseFacade
 
     Task<OperationResult> AddStudent(Guid courseId, Guid userId);
     Task<OperationResult> DeleteStudent(Guid courseId, Guid userId);
+
+    Task<List<CourseFilterData?>> GetUserCourses(Guid userId);
+    Task<List<StudentDto?>> GetStudentsCours(Guid coursId);
+
 
     Task<CourseFilterResult> GetCourseFilter(CourseFilterParams param);
     Task<CourseDto?> GetCourseById(Guid id);
@@ -119,5 +126,16 @@ class CourseFacade : ICourseFacade
     {
         return await _mediator.Send(new GetEpisodeByIdQuery(id));
 
+    }
+
+    public async Task<List<CourseFilterData?>> GetUserCourses(Guid userId)
+    {
+        return await _mediator.Send(new GetUserCoursesQuery(userId));
+      
+    }
+
+    public async Task<List<StudentDto?>> GetStudentsCours(Guid coursId)
+    {
+        return await _mediator.Send(new GetStudentsCoursQuery(coursId));
     }
 }

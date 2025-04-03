@@ -1,6 +1,7 @@
-using CoreModule.Application._Utilities;
+﻿using CoreModule.Application._Utilities;
 using CoreModule.Facade.Courses;
 using CoreModule.Query.Courses._DTOs;
+using CoreModule.Query.HelperEntities._DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -16,6 +17,7 @@ public class CourseModel : PageModel
     }
 
     public CourseDto Course { get; set; }
+    public List<StudentDto> MyProperty { get; set; }
     public async Task<IActionResult> OnGet(string slug)
     {
         var course = await _courseFacade.GetCourseBySlug(slug);
@@ -23,8 +25,17 @@ public class CourseModel : PageModel
         {
             return NotFound();
         }
+        var students = await _courseFacade.GetStudentsCours(course.Id);
 
+        MyProperty=students;
+        if (students == null)
+        {
+            students = new List<StudentDto>(); 
+        }
+
+        course.Students = MyProperty;
         Course = course;
+     
         return Page();
     }
     public async Task<IActionResult> OnGetShowOnline(string slug, Guid sectionId, Guid token)

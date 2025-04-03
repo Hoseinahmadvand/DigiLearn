@@ -1,4 +1,110 @@
 ﻿@page
+@using Common.Application.DateUtil
+@using System.Transactions
 @model DigiLearn.Web.Pages.Profile.TransactionModel
 @{
+    int counter = 1;
 }
+
+<div class="max-w-7xl space-y-14 px-4 mx-auto">
+    <div class="grid md:grid-cols-12 grid-cols-1 items-start gap-5">
+        <partial name="_ProfileSidebar"></partial>
+        <div class="lg:col-span-9 md:col-span-8 ">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                </div>
+                <div class="font-black text-foreground"> پروفایل / @ViewData["title"]  </div>
+            </div>
+            <div class="space-y-6 bg-white shadow rounded-xl p-6">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-lg">لیست  تراکنش ها</h3>
+                 @*    <delete-item data-toggle="tooltip" title="حذف همه"
+                                 url="@Url.Page("Notifications","DeleteAll")">
+
+                        حذف همه
+                    </delete-item> *@
+
+
+
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full border border-gray-300 bg-gray-50 rounded-xl overflow-hidden text-right">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-700 text-sm">
+                                <th class="py-3 px-4"></th>
+                                <th class="py-3 px-4">نام</th>
+                                <th class="py-3 px-4">وضعیت</th>
+                                <th class="py-3 px-4">مقدار</th>
+                                <th class="py-3 px-4">نوع</th>
+                                <th class="py-3 px-4">تاریخ</th>
+                                <th class="py-3 px-4 text-center">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm bg-white">
+                            @foreach (var item in Model.Transactions)
+
+                            {
+                                <tr class="border-t border-gray-300">
+                                    <td class="py-3 px-4">
+                                        @counter
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        تراکنش # @item.RefId
+                                    </td>
+                                    <td class="py-3 px-4">
+                                  
+                                            @if (item.Status.ToString() == "Pending")
+                                            {
+                                            <span style="color: orange;">در انتظار پرداخت</span>
+                                            }
+                                            else if (item.Status.ToString() == "PaymentSuccess")
+                                            {
+                                            <span style="color: green;">پرداخت موفق</span>
+                                            }
+                                            else if (item.Status.ToString() == "PaymentError")
+                                            {
+                                            <span style="color: red;">خطا در پرداخت</span>
+                                            }
+                                            else if (item.Status.ToString() == "CancelPayment")
+                                            {
+                                            <span style="color: gray;">پرداخت لغو شد</span>
+                                            }
+                                    </td>
+                               
+                              
+                                    <td class="py-3 px-4">
+                                        <h6 class="font-medium">@item.PaymentAmount.ToString("#,0")</h6>
+                                    </td>
+                              
+                                    <td class="py-3 px-4">
+                                        <h6 class="font-medium">@item.PaymentGateWay</h6>
+                                    </td>
+                                    <td class="py-3 px-4">@item.CreateDate.ToPersianDate()</td>
+                                    <td class="py-3 px-4 text-center flex justify-center space-x-2">
+                                     
+                                        <delete-item url="@Url.Page("Notifications", "DeleteNotification", new { id = item.Id })" data-toggle="tooltip" title="حذف" class="text-red-500 rounded-full hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+                                            <i class="fa fa-trash"></i>
+                                        </delete-item>
+                                    </td>
+                                </tr>
+
+                                counter++;
+                            }
+                            @if(!Model.Transactions.Any())
+
+                            {
+                                <tr class="border-t border-gray-300">
+                                    <td colspan="4" class="py-3 text-center text-gray-500">موردی برای نمایش وجود ندارد</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr class="mt-4">
+      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ using Common.Query;
 using CoreModule.Domain.Courses.Enums;
 using CoreModule.Query._Data.Entities;
 using CoreModule.Query.Categories._DTOs;
+using CoreModule.Query.HelperEntities._DTOs;
 using CoreModule.Query.Teachers._DTOs;
 
 namespace CoreModule.Query.Courses._DTOs;
@@ -27,7 +28,7 @@ public class CourseDto : BaseDto
     public List<CourseSectionDto> Sections { get; set; }
     public CourseCategoryDto MainCategory { get; set; }
     public CourseCategoryDto SubCategory { get; set; }
-
+    public List<StudentDto>? Students { get; set; } 
     public string GetDuration()
     {
         int totalSeconds = 0;

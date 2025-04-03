@@ -1,5 +1,4 @@
 ﻿using Common.Query;
-using CoreModule.Domain.Teachers.Enums;
 using CoreModule.Query._Data;
 using CoreModule.Query._DTOs;
 using CoreModule.Query.Categories._DTOs;

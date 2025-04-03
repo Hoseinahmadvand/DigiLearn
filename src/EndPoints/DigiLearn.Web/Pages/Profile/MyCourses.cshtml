@@ -1,0 +1,36 @@
+﻿@page
+@model DigiLearn.Web.Pages.Profile.MyCoursesModel
+@{
+}
+<div class="max-w-7xl px-4 mx-auto py-8 space-y-10">
+    <div class="grid md:grid-cols-12 grid-cols-1 gap-6">
+        <partial name="_ProfileSidebar"></partial>
+
+        <div class="lg:col-span-9 md:col-span-8">
+            <div class="space-y-5">
+                <!-- section:title -->
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1">
+                        <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                        <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                    </div>
+                    <div class="font-black text-foreground">دوره های در حال یادگیری</div>
+                </div>
+                <!-- end section:title -->
+                <!-- section:learning-courses:slider -->
+                <div class="swiper col3-swiper-slider swiper-initialized swiper-horizontal swiper-rtl swiper-backface-hidden">
+                    <div class="swiper-wrapper" id="swiper-wrapper-e63e29b1007e22330" aria-live="polite">
+                        @foreach (var item in Model.Courses)
+                        {
+                            <partial name="Shared/Courses/_CourseCard" model="item" />
+                        }
+                    </div>
+                    <div class="swiper-button-prev swiper-button-disabled swiper-button-lock" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-e63e29b1007e22330" aria-disabled="true"></div>
+                    <div class="swiper-button-next swiper-button-disabled swiper-button-lock" tabindex="-1" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-e63e29b1007e22330" aria-disabled="true"></div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                </div>
+                <!-- end section:learning-courses:slider -->
+            </div>
+        </div>
+    </div>
+</div>
