@@ -1,5 +1,6 @@
 ﻿using BannerModule.Services.DTOs.Query;
 using BlogModule.Services.DTOs.Query;
+using CoreModule.Query.Teachers._DTOs;
 
 namespace DigiLearn.Web.ViewModels;
 
@@ -8,6 +9,7 @@ public class HomePageViewModel
     public List<CourseCardViewModel> LatestCourses { get; set; }
     public List<BlogPostFilterItemDto> LatestArticles { get; set; }
     public List<BannerDto> Slider { get; set; }
+    public List<TeacherDto> Teachers { get; set; }
 }
 
 public class CourseCardViewModel

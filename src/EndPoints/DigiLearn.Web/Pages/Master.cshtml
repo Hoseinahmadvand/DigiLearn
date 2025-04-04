@@ -1,0 +1,78 @@
+﻿@page "{username}"
+@using CoreModule.Application._Utilities
+@using UserModule.Core
+@model DigiLearn.Web.Pages.MasterModel
+@{
+    ViewData["Title"] = "پروفایل مدرس";
+}
+
+<section class="flex items-center justify-between gap-8 bg-gradient-to-l from-secondary to-background rounded-2xl p-5">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+
+        <!-- کارت پروفایل -->
+        <div class="flex items-center justify-between gap-8 bg-gradient-to-l from-secondary to-background rounded-2xl p-5 shadow-lg border border-border">
+            <!-- تصویر مدرس -->
+            <div class="flex-shrink-0">
+                <img class="w-32 h-32 rounded-full ring-4 ring-primary shadow-md"
+                     src="@UserModuleDirectories.GetUserAvatar(Model.Teacher.User.Avatar)"
+                     alt="@Model.Teacher.User.Name" />
+            </div>
+
+            <!-- اطلاعات مدرس -->
+            <div class="flex-1 space-y-4">
+                <h1 class="text-3xl font-bold text-foreground">
+                    @Model.Teacher.User.Name @Model.Teacher.User.Family
+                </h1>
+
+                <p class="text-sm text-foreground leading-relaxed">
+                    @Model.Teacher.Biography
+                </p>
+
+                <p class="text-sm text-foreground  text-muted-foreground">
+                    @Model.Teacher.Description
+                </p>
+                <div class="flex gap-4 flex-wrap pt-2">
+                    <a href="#" target="_blank" class="text-sm text-primary hover:underline">وب‌سایت شخصی</a>
+                    <a href="#" target="_blank" class="text-sm text-primary hover:underline">لینکدین</a>
+                    @* لینک‌های دیگر *@
+                </div>
+            </div>
+        </div>
+
+        <!-- دوره‌ها -->
+        @if (Model.FilterResult.Data.Any())
+        {
+            <div>
+                <h2 class="text-2xl font-bold text-foreground mb-6">
+                    دوره‌های مدرس <span class="text-primary">(@Model.FilterResult.EntityCount)</span>
+                </h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach (var course in Model.FilterResult.Data)
+                    {
+                        <div class="rounded-2xl overflow-hidden border border-border bg-card shadow hover:shadow-xl transition hover:-translate-y-1">
+                            <a href="/Course/@course.Slug">
+                                <img src="@CoreModuleDirectories.GetCourseImage(course.ImageName)" alt="@course.Title"
+                                     class="w-full h-44 object-cover" />
+                            </a>
+
+                            <div class="p-5 space-y-3">
+                                <h3 class="text-lg font-bold text-foreground line-clamp-1">@course.Title</h3>
+
+                                <p class="text-sm text-foreground">
+                              @course.Category
+                                </p>
+
+                                <a href="/Course/@course.Slug"
+                                   class="inline-block text-sm bg-primary text-primary-foreground px-4 py-1.5 rounded-full hover:opacity-90 transition">
+                                    مشاهده دوره
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+    </div>
+</section>

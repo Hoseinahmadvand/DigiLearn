@@ -6,6 +6,7 @@ using CoreModule.Application.Teachers.ToggleStatus;
 using CoreModule.Query.Teachers._DTOs;
 using CoreModule.Query.Teachers.GetById;
 using CoreModule.Query.Teachers.GetByUserId;
+using CoreModule.Query.Teachers.GetByUserName;
 using CoreModule.Query.Teachers.GetList;
 using MediatR;                
 
@@ -21,6 +22,7 @@ public interface ITeacherFacade
 
 
     Task<TeacherDto?> GetById(Guid id);
+    Task<TeacherDto?> GetByUserName(string username);
     Task<TeacherDto?> GetByUserId(Guid userId);
     Task<List<TeacherDto>> GetList();
 }
@@ -68,5 +70,10 @@ class TeacherFacade : ITeacherFacade
     public async Task<List<TeacherDto>> GetList()
     {
         return await _mediator.Send(new GetTeacherListQuery());
+    }
+
+    public async Task<TeacherDto?> GetByUserName(string username)
+    {
+        return await _mediator.Send(new GetTeacherByUserNameQuery(username));
     }
 }

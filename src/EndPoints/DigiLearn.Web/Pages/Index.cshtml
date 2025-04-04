@@ -1,4 +1,5 @@
 ﻿@page
+@using UserModule.Core
 @model IndexModel
 @{
     ViewData["Title"] = "صفحه اصلی";
@@ -144,3 +145,30 @@
         <!-- end section:latest-courses:slider -->
     </div>
 </div>
+<section class="py-16 bg-gradient-to-l from-secondary to-background">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold text-foreground mb-12">مدرسین ما</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+           @foreach(var teacher in Model.HomePageData.Teachers)
+           {
+                <div class="bg-gradient-to-b from-background to-secondary rounded-3xl shadow-md p-6 text-center hover:shadow-xl transition transform hover:-translate-y-1 ">
+                    <img class="w-24 h-24 mx-auto rounded-full ring-4 ring-blue-200 mb-4 shadow-sm" src="@UserModuleDirectories.GetUserAvatar(teacher.User.Avatar)" alt="@teacher.UserName" />
+                    <h3 class="text-lg font-semibold text-foreground">@teacher.User.Name @teacher.User.Family   </h3>
+                    <div class="flex gap-3 mt-3">
+                        <a href="/Master/@teacher.UserName" class="w-full h-8 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+                            <span class="line-clamp-1 font-semibold text-sm">مشاهده مدرس</span>
+                        </a>
+                    </div>
+                </div>
+           }
+        </div>
+
+        <a href="/masters"
+           class="inline-block bg-blue-600 text-white text-sm font-medium px-7 py-3 rounded-full shadow-md hover:bg-blue-700 transition duration-300">
+            مشاهده همه مدرسین
+        </a>
+    </div>
+</section>
+
+
